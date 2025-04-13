@@ -13,40 +13,36 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        File rootDir = new File(ROOT_DIR); // создание корневой директории
-
-        if (rootDir.mkdirs()) {
-            addLog("Корневая директория " + rootDir.getPath() + " создана успешно.");
-        } else {
-            addLog("Ошибка при создании корневой директории " + rootDir.getPath() + ".");
-        }
+        // Создание корневой директории
+        createDirectory(ROOT_DIR);
 
         // Создание папок в корне
-        createDirectory(new File(rootDir, "src"));
-        createDirectory(new File(rootDir, "res"));
-        createDirectory(new File(rootDir, "savegames"));
-        createDirectory(new File(rootDir, "temp"));
+        createDirectory(ROOT_DIR + "/src");
+        createDirectory(ROOT_DIR + "/res");
+        createDirectory(ROOT_DIR + "/savegames");
+        createDirectory(ROOT_DIR + "/temp");
 
         // Создание папок внутри src
-        createDirectory(new File(rootDir + "/src/main"));
-        createDirectory(new File(rootDir + "/src/test"));
+        createDirectory(ROOT_DIR + "/src/main");
+        createDirectory(ROOT_DIR + "/src/test");
 
         // Создание файлов в папках
-        createFile(new File(rootDir + "/src/main/Main.java"));
-        createFile(new File(rootDir + "/src/main/Utils.java"));
+        createFile(ROOT_DIR + "/src/main", "Main.java");
+        createFile(ROOT_DIR + "/src/main", "Utils.java");
 
         // Создание папок внутри res
-        createDirectory(new File(rootDir + "/res/drawables"));
-        createDirectory(new File(rootDir + "/res/vectors"));
-        createDirectory(new File(rootDir + "/res/icons"));
+        createDirectory(ROOT_DIR + "/res/drawables");
+        createDirectory(ROOT_DIR + "/res/vectors");
+        createDirectory(ROOT_DIR + "/res/icons");
 
         // Создание файла для записи логов
-        createFile(new File(rootDir + "/temp/" + TEMP_FILE_NAME));
+        createFile(ROOT_DIR + "/temp", TEMP_FILE_NAME);
 
         writeLogToTempFile(log.toString()); // Запись лога в файл
     }
 
-    private static void createDirectory(File directory) {
+    private static void createDirectory(String pathDirectory) {
+        File directory = new File(pathDirectory);
         if (directory.mkdirs()) {
             addLog("Директория " + directory.getPath() + " создана успешно.");
         } else {
@@ -54,7 +50,8 @@ public class Main {
         }
     }
 
-    private static void createFile(File file) {
+    private static void createFile(String pathDirectory, String pathFile) {
+        File file = new File(pathDirectory, pathFile);
         try {
             if (file.createNewFile()) {
                 addLog("Файл " + file.getName() + " создан успешно.");
